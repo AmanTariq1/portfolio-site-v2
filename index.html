@@ -578,7 +578,7 @@ dialog button{background:var(--card);color:var(--ink);border:0;border-radius:6px
         <p><small>Email</small><span id="mailtxt">amantariqa344@gmail.com</span></p>
         <p><small>Location</small>Muzaffarabad, Azad Jammu and Kashmir</p>
       </div>
-      <form id="f" class="contact-form" action="send-email.php" method="post">
+      <form id="f" class="contact-form" action="/api/send-email" method="post">
         <input id="n" name="name" type="text" placeholder="Your name" aria-label="Your name" autocomplete="name" maxlength="120" required>
         <input id="e" name="email" type="email" placeholder="Your email" aria-label="Your email" autocomplete="email" maxlength="254" required>
         <textarea id="m" name="message" placeholder="Your message" aria-label="Your message" maxlength="5000" required></textarea>
@@ -658,10 +658,11 @@ dialog button{background:var(--card);color:var(--ink);border:0;border-radius:6px
     submitButton.disabled = true;
 
     try {
+      var payload = Object.fromEntries(new FormData(contactForm).entries());
       var response = await fetch(contactForm.action, {
         method: "POST",
-        body: new FormData(contactForm),
-        headers: { "Accept": "application/json" },
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
         credentials: "same-origin"
       });
       var result;
